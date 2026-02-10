@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block title %}Custom Reports - Cloud Bank Analytics{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1><i class="fas fa-file-alt me-3 text-teal"></i>Custom Report Generation</h1>
+        <p>Comprehensive Financial Analysis & Quarterly Reporting</p>
+    </div>
+</div>
+
+<!-- Scenario 2: Custom Report Generation -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card" style="border-left: 5px solid var(--primary-teal);">
+            <div class="card-header" style="background: linear-gradient(135deg, #D1ECF1 0%, #C8E6F5 100%); color: var(--primary-navy);">
+                <h5 class="mb-0">
+                    <i class="fas fa-rocket me-2"></i>About Custom Reports (John's Scenario)
+                </h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-2">
+                    <strong>Scenario Overview:</strong> John, a financial manager, needs to prepare comprehensive quarterly reports for the board meeting. 
+                    This report generation system leverages AWS EC2 for processing and Amazon DynamoDB for data retrieval.
+                </p>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>Report Metrics Included:</h6>
+                        <ul>
+                            <li><i class="fas fa-check-circle text-success me-2"></i>Loan Performance</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i>Deposit Growth Trends</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i>Customer Acquisition Rates</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i>Transaction Volume Analysis</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>Processing Capabilities:</h6>
+                        <ul>
+                            <li><i class="fas fa-check-circle text-success me-2"></i>AWS EC2-powered analytics</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i>DynamoDB data aggregation</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i>Real-time data processing</li>
+                            <li><i class="fas fa-check-circle text-success me-2"></i>PDF export capability</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if report_data %}
+<!-- Transaction Summary Section -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="page-header">
+            <h5><i class="fas fa-chart-pie me-2"></i>Transaction Summary Report</h5>
+        </div>
+    </div>
+    
+    <div class="col-md-3">
+        <div class="metric-card success">
+            <div class="metric-label">Total Transactions</div>
+            <div class="metric-value">{{ report_data.total_transactions }}</div>
+            <small class="text-muted">Complete Record</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="metric-card info">
+            <div class="metric-label">Total Deposits</div>
+            <div class="metric-value">${{ "%.0f"|format(report_data.total_deposits) }}</div>
+            <small class="text-muted">Incoming Funds</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="metric-card warning">
+            <div class="metric-label">Total Withdrawals</div>
+            <div class="metric-value">${{ "%.0f"|format(report_data.total_withdrawals) }}</div>
+            <small class="text-muted">Outgoing Funds</small>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="metric-card success">
+            <div class="metric-label">Net Balance</div>
+            <div class="metric-value">${{ "%.0f"|format(report_data.current_balance) }}</div>
+            <small class="text-muted">Current Position</small>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Financial & Board Metrics -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-calculator me-2"></i>Financial Summary</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-6">
+                        <label class="text-muted small">Deposit Count</label>
+                        <h4 class="text-success" id="deposit-count">0</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small">Withdrawal Count</label>
+                        <h4 class="text-warning" id="withdraw-count">0</h4>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-6">
+                        <label class="text-muted small">Transfer Count</label>
+                        <h4 class="text-info" id="transfer-count">0</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small">Avg Amount</label>
+                        <h4 id="avg-transaction">$0.00</h4>
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block mb-2">Total Deposits</label>
+                        <h5 class="text-success" id="total-deposits-value">${{ "%.0f"|format(report_data.total_deposits if report_data else 0) }}</h5>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small d-block mb-2">Total Withdrawals</label>
+                        <h5 class="text-warning" id="total-withdrawals-value">${{ "%.0f"|format(report_data.total_withdrawals if report_data else 0) }}</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-presentation me-2"></i>Board Metrics Summary</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-sm-6">
+                        <label class="text-muted small">Current Balance</label>
+                        <h4 class="text-teal">${{ "%.0f"|format(report_data.current_balance if report_data else 0) }}</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small">Account Status</label>
+                        <h5><span class="badge bg-success">Active</span></h5>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-sm-6">
+                        <label class="text-muted small">Total Transactions</label>
+                        <h4 id="total-tx-count">{{ report_data.total_transactions if report_data else 0 }}</h4>
+                    </div>
+                    <div class="col-sm-6">
+                        <label class="text-muted small">Data Status</label>
+                        <h5><span class="badge bg-success">Updated</span></h5>
+                    </div>
+                </div>
+                <hr>
+                <small class="text-muted"><i class="fas fa-calendar me-1"></i>Report Generated: Today</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Transactions -->
+<div class="row mb-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <h5><i class="fas fa-list me-2"></i>Transaction History</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0 table-sm">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Date</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% if report_data and report_data.transactions %}
+                                {% for transaction in report_data.transactions %}
+                                <tr>
+                                    <td><small>{{ transaction.created_at[:10] }}</small></td>
+                                    <td>
+                                        {% if transaction.transaction_type == 'deposit' %}
+                                            <span class="badge bg-success"><i class="fas fa-arrow-down me-1"></i>Deposit</span>
+                                        {% elif transaction.transaction_type == 'withdraw' %}
+                                            <span class="badge bg-warning"><i class="fas fa-arrow-up me-1"></i>Withdraw</span>
+                                        {% elif transaction.transaction_type == 'transfer' %}
+                                            <span class="badge bg-info"><i class="fas fa-exchange-alt me-1"></i>Transfer</span>
+                                        {% endif %}
+                                    </td>
+                                    <td><strong>${{ "%.2f"|format(transaction.amount) }}</strong></td>
+                                    <td>{{ transaction.description }}</td>
+                                    <td><span class="badge bg-success"><i class="fas fa-check me-1"></i>Complete</span></td>
+                                </tr>
+                                {% endfor %}
+                            {% else %}
+                                <tr>
+                                    <td colspan="5" class="text-center text-muted py-4">
+                                        <i class="fas fa-inbox me-2"></i>No transactions available
+                                    </td>
+                                </tr>
+                            {% endif %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Calculate statistics from transactions shown in table
+        const tableRows = document.querySelectorAll('tbody tr');
+        let depositCount = 0, withdrawCount = 0, transferCount = 0, totalAmount = 0;
+
+        tableRows.forEach(row => {
+            // Skip the "no transactions" message row
+            if (row.cells.length < 4) return;
+            
+            const typeCell = row.cells[1].textContent;
+            const amountText = row.cells[2].textContent.replace('$', '').replace(/,/g, '');
+            const amountCell = parseFloat(amountText);
+
+            if (!isNaN(amountCell)) {
+                totalAmount += amountCell;
+            }
+
+            if (typeCell.includes('Deposit')) {
+                depositCount++;
+            } else if (typeCell.includes('Withdraw')) {
+                withdrawCount++;
+            } else if (typeCell.includes('Transfer')) {
+                transferCount++;
+            }
+        });
+
+        // Update counts
+        document.getElementById('deposit-count').textContent = depositCount;
+        document.getElementById('withdraw-count').textContent = withdrawCount;
+        document.getElementById('transfer-count').textContent = transferCount;
+        
+        // Calculate average
+        const totalTx = depositCount + withdrawCount + transferCount;
+        const avgTx = totalTx > 0 ? totalAmount / totalTx : 0;
+        document.getElementById('avg-transaction').textContent = '$' + avgTx.toFixed(2);
+    });
+</script>
+
+{% else %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>No Data Available:</strong> No account data available for report generation. Please ensure your account is properly set up.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Navigation -->
+<div class="row mt-4">
+    <div class="col-md-12">
+        <a href="{{ url_for('transactions.dashboard') }}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left me-2"></i>Back to Dashboard
+        </a>
+        <a href="{{ url_for('analytics.dashboard') }}" class="btn btn-outline-primary">
+            <i class="fas fa-chart-line me-2"></i>View Analytics
+        </a>
+        <a href="{{ url_for('analytics.compliance') }}" class="btn btn-outline-primary">
+            <i class="fas fa-shield-alt me-2"></i>Compliance Status
+        </a>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Register - Cloud Bank Analytics{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center align-items-center" style="min-height: 60vh;">
+    <div class="col-md-5">
+        <div class="card shadow-lg border-0">
+            <div class="card-body p-5">
+                <div class="text-center mb-4">
+                    <i class="fas fa-user-plus text-teal" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <h2 class="text-navy">Create Account</h2>
+                    <p class="text-muted">Join Cloud Bank Analytics Today</p>
+                </div>
+
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">
+                            <i class="fas fa-user text-teal me-1"></i>Full Name
+                        </label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="name" 
+                               name="name" 
+                               placeholder="John Doe"
+                               required>
+                        <small class="text-muted">Your full legal name</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">
+                            <i class="fas fa-envelope text-teal me-1"></i>Email Address
+                        </label>
+                        <input type="email" 
+                               class="form-control" 
+                               id="email" 
+                               name="email" 
+                               placeholder="your@email.com"
+                               required>
+                        <small class="text-muted">We'll use this to authenticate your account</small>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password" class="form-label">
+                            <i class="fas fa-lock text-teal me-1"></i>Create Password
+                        </label>
+                        <input type="password" 
+                               class="form-control" 
+                               id="password" 
+                               name="password" 
+                               placeholder="••••••••"
+                               required>
+                        <small class="text-muted">Use a strong password with 8+ characters</small>
+                    </div>
+
+                    <div class="mb-4 p-3 bg-light rounded">
+                        <h6 class="text-muted mb-2"><i class="fas fa-check-circle text-success me-2"></i>Account Benefits</h6>
+                        <ul class="list-unstyled small mb-0">
+                            <li class="mb-1"><i class="fas fa-check me-2 text-success"></i>Real-time transaction monitoring</li>
+                            <li class="mb-1"><i class="fas fa-check me-2 text-success"></i>Custom report generation</li>
+                            <li><i class="fas fa-check me-2 text-success"></i>Compliance tracking & alerts</li>
+                        </ul>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-lg w-100 mb-3">
+                        <i class="fas fa-user-plus me-2"></i>Create Account
+                    </button>
+                </form>
+
+                <div class="text-center">
+                    <p class="text-muted mb-0">Already have an account?</p>
+                    <a href="{{ url_for('auth.login') }}" class="btn btn-link text-teal fw-bold">
+                        Login here instead
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert alert-success mt-3" role="alert">
+            <i class="fas fa-shield-alt me-2"></i>
+            <small><strong>Secure & Private:</strong> All data is encrypted with AWS security best practices.</small>
+        </div>
+    </div>
+</div>
+{% endblock %}
