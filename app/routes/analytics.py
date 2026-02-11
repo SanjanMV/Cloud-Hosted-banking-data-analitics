@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 from ..models import Transaction, Account
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 analytics_bp = Blueprint('analytics', __name__)
 
@@ -12,7 +12,7 @@ def dashboard():
     Scenario 1: Real-time Transaction Monitoring
     Sarah, a bank's fraud detection analyst, views alerts for unusual transaction patterns.
     """
-    end_date = datetime.utcnow()
+    end_date = datetime.now(timezone.utc)
     start_date = end_date - timedelta(days=30)
 
     account = Account.get(current_user.id)
@@ -87,7 +87,7 @@ def compliance():
             compliance_percentage = 85
 
         # Scenario 3: Frequent small transactions (potential money laundering - AML check)
-        recent_transactions = [t for t in transactions if (datetime.utcnow() - datetime.fromisoformat(t.created_at.replace('Z', '+00:00'))).days <= 7]
+        recent_transactions = [t for t in transactions if (datetime.now(timezone.utc) - datetime.fromisoformat(t.created_at.replace('Z', '+00:00'))).days <= 7]
         if len(recent_transactions) > 50:
             alerts.append("High transaction frequency detected")
             compliance_percentage = max(compliance_percentage - 10, 70)

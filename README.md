@@ -114,9 +114,6 @@ A professional Flask-based banking application with AWS DynamoDB integration for
 ### Real-time Fraud Detection
 Monitor transactions in real-time with automated alerts for suspicious activities like high-value transfers.
 
-### Custom Financial Reports
-Generate comprehensive reports for management with export options in PDF, CSV, and Excel formats.
-
 ### Regulatory Compliance
 Track compliance metrics and receive alerts when thresholds are approached, ensuring regulatory adherence.
 
@@ -143,11 +140,7 @@ Track compliance metrics and receive alerts when thresholds are approached, ensu
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 📞 Support
-
-For support, email sanjan@example.com or open an issue on GitHub.
+This project is licensed under the MIT License 
 
 ## 🙏 Acknowledgments
 

@@ -1,7 +1,7 @@
 from flask_login import UserMixin
 import boto3
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone
 from bcrypt import hashpw, checkpw, gensalt
 from decimal import Decimal
 
@@ -26,8 +26,8 @@ class User(UserMixin):
         from flask import current_app
         user_id = str(uuid.uuid4())
         password_hash = hashpw(password.encode('utf-8'), gensalt()).decode('utf-8')
-        created_at = datetime.utcnow().isoformat()
-        
+        created_at = datetime.now(timezone.utc).isoformat()
+
         table = current_app.dynamodb.Table(current_app.config['DYNAMODB_TABLE_USERS'])
         table.put_item(Item={
             'user_id': user_id,
@@ -88,7 +88,7 @@ class Account:
         from flask import current_app
         account_id = str(uuid.uuid4())
         balance = Decimal('0.0')
-        created_at = datetime.utcnow().isoformat()
+        created_at = datetime.now(timezone.utc).isoformat()
 
         table = current_app.dynamodb.Table(current_app.config['DYNAMODB_TABLE_ACCOUNTS'])
         table.put_item(Item={
@@ -162,7 +162,7 @@ class Transaction:
         """Create a new transaction"""
         from flask import current_app
         transaction_id = str(uuid.uuid4())
-        created_at = datetime.utcnow().isoformat()
+        created_at = datetime.now(timezone.utc).isoformat()
 
         table = current_app.dynamodb.Table(current_app.config['DYNAMODB_TABLE_TRANSACTIONS'])
         table.put_item(Item={

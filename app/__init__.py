@@ -20,8 +20,7 @@ def create_app():
     app.config.from_object(Config)
 
     # Determine if we should use moto for local development
-    use_moto = (os.getenv('FLASK_ENV') == 'development' and
-                not os.getenv('USE_REAL_AWS', 'false').lower() == 'true')
+    use_moto = True  # Force moto for development
 
     # Initialize DynamoDB
     if use_moto:

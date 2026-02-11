@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from ..models import Account, Transaction, User
 from ..notifications import send_transaction_notification
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 transactions_bp = Blueprint('transactions', __name__)
 
@@ -31,7 +31,7 @@ def dashboard():
         except:
             # Handle any date parsing issues
             monthly_transactions.append(t)
-            if t.transaction_type in['deposit', 'transfer']:
+            if t.transaction_type in ['deposit', 'transfer']:
                 monthly_volume += t.amount
     
     return render_template('dashboard.html', 
